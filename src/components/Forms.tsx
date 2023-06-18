@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 export const Forms = () => {
   const { user } = useAuth();
+  const popoverRef = useRef<any>(null);
 
   const [forms, setForms] = useState<any[]>([]);
   const [search, setSearch] = useState<string>("");
@@ -18,7 +19,6 @@ export const Forms = () => {
   );
   const [toggleSort, setToggleSort] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const popoverRef = useRef<any>(null);
 
   const handleSortClick = () => {
     setToggleSort((prv) => !prv);
