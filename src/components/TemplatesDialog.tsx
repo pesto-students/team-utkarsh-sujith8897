@@ -403,10 +403,12 @@ export const TemplatesDialog = ({
 
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full z-50 flex items-center justify-center bg-gray-100 bg-opacity-10 backdrop-blur"
+      className={`fixed top-0 left-0 w-full h-full z-50 flex justify-center ${
+        templates ? "" : "items-center"
+      } md:items-center bg-gray-100 bg-opacity-10 backdrop-blur`}
       style={{ zIndex: 1000 }}
     >
-      <div className="relative bg-white m-4 border-2 px-6 md:px-8 py-8 rounded-md shadow-md">
+      <div className="relative bg-white m-4 border-2 px-6 md:px-8 py-8 rounded-md shadow-md overflow-auto">
         <div>
           <p className="text-center pb-2">
             Create a form in seconds using our templates
@@ -422,21 +424,21 @@ export const TemplatesDialog = ({
                 className="w-5 h-5 cursor-pointer transition-all duration-75 active:scale-90"
               />
             </div>
-            <div className="flex space-x-4">
-              <div className="w-[40%] border rounded-md max-h-[400px] overflow-y-auto left-panel">
+            <div className="flex space-x-0 md:space-x-4 space-y-4 md:space-y-0 flex-col md:flex-row">
+              <div className="w-full md:w-[300px] flex flex-row md:flex-col max-w-[300px] border rounded-md max-h-[400px] overflow-auto left-panel">
                 {formTemplates?.map?.((template: any, index: number) => (
                   <button
                     onClick={() => setSelectedTemplate(index)}
                     key={index}
                     className={`${
                       selectedTemplate === index ? "bg-gray-50 font-medium" : ""
-                    } w-[100%] p-2 border-b text-sm hover:bg-gray-50`}
+                    } w-[100%] p-2 border-r md:border-b text-sm hover:bg-gray-50`}
                   >
                     {template?.name}
                   </button>
                 ))}
               </div>
-              <div className="w-[60%] max-h-[400px] overflow-y-auto left-panel pl-10 border rounded-md py-4">
+              <div className="w-full md:w-[500px] max-h-[400px] overflow-y-auto left-panel pl-0 border rounded-md py-4">
                 <RenderForm
                   templatePreview={true}
                   fields={formTemplates[selectedTemplate]?.fields}
