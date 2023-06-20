@@ -13,7 +13,7 @@ export const RenderFields = ({
   handleEditPlaceholder = (e: any, index: number) => null,
   handleDelete = (index: number) => null,
   handleEditOption = (e: any, index: number, optionIndex: number) => null,
-  handleAddOption = (e: any, index: number) => null,
+  handleAddOption = (index: number) => null,
   handleDeleteOption = (index: number, optionIndex: number) => null,
   handleRequired = (index: number) => null,
   index = 0,
@@ -24,7 +24,7 @@ export const RenderFields = ({
   handleEditPlaceholder?: (e: any, index: number) => void;
   handleDelete?: (index: number) => void;
   handleEditOption?: (e: any, index: number, optionIndex: number) => void;
-  handleAddOption?: (e: any, index: number) => void;
+  handleAddOption?: (index: number) => void;
   handleDeleteOption?: (index: number, optionIndex: number) => void;
   handleRequired?: (index: number) => void;
   index?: number;
@@ -111,6 +111,12 @@ export const RenderFields = ({
     setEditLabel(false);
   };
 
+  const handleKeyDown = (e: any) => {
+    if (e.keyCode === 13) {
+      handleBlur();
+    }
+  };
+
   return (
     <div className="max-w-[300px] group">
       {preview ? (
@@ -137,6 +143,7 @@ export const RenderFields = ({
           placeholder="Label"
           value={item.label}
           onChange={(e) => handleEditLabel(e, index)}
+          onKeyDown={handleKeyDown}
           className="mb-1 text-sm font-semibold outline-none bg-transparent"
           onBlur={handleBlur}
         />

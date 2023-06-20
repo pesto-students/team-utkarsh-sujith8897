@@ -2,12 +2,14 @@ import { useRef, useState } from "react";
 
 export const FileInput = ({
   preview = false,
+  templatePreview = false,
   published = false,
   handleFileChange = () => null,
   error = false,
   selectedFile = undefined,
 }: {
   preview?: boolean;
+  templatePreview?: boolean;
   published?: boolean;
   handleFileChange?: any;
   error?: boolean;
@@ -16,7 +18,7 @@ export const FileInput = ({
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
-    if (!published) return;
+    if (!published || templatePreview) return;
     fileRef?.current?.click();
   };
 

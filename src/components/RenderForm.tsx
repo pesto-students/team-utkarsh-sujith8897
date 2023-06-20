@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Label } from "./ui/Label";
 import { EFieldTypes } from "../store/type/field.type";
 import { Input } from "./ui/Input";
@@ -15,12 +15,14 @@ import { useToast } from "../hooks/Toast";
 
 export const RenderForm = ({
   preview = false,
+  templatePreview = false,
   fields = [],
   title = "",
   id = 0,
   handleClose = () => null,
 }: {
   preview?: boolean;
+  templatePreview?: boolean;
   fields: any[];
   title: string;
   id?: number;
@@ -38,6 +40,7 @@ export const RenderForm = ({
 
   const handleSubmit = async (e: any) => {
     e?.preventDefault?.();
+    if (templatePreview) return;
     let found = [];
     for (let i = 0; i < fieldList.length; i++) {
       const field = fieldList[i];
@@ -192,6 +195,7 @@ export const RenderForm = ({
           <div id={item?.id}>
             <FileInput
               published={true}
+              // templatePreview={templatePreview}
               handleFileChange={handleFileChange}
               error={fileError}
               selectedFile={selectedFile}
@@ -202,6 +206,10 @@ export const RenderForm = ({
         return null;
     }
   };
+
+  useEffect(() => {
+    setFieldList(fields);
+  }, [fields]);
 
   return (
     <div>
@@ -224,8 +232,18 @@ export const RenderForm = ({
           />
         </div>
       ) : (
-        <div className="px-0 lg:px-8 py-6 lg:py-16 ml-0 md:ml-12 lg:ml-48">
-          <div className="mt-10 px-8 md:px-20 mb-16 lg:mb-0">
+        <div
+          className={`${
+            !templatePreview
+              ? "px-0 lg:px-8 py-6 lg:py-16 ml-0 md:ml-12 lg:ml-48"
+              : ""
+          }`}
+        >
+          <div
+            className={`${
+              templatePreview ? "" : "mt-10"
+            } px-8 md:px-20 mb-16 lg:mb-0`}
+          >
             <h1 className="text-3xl font-semibold mb-8">{title}</h1>
             <form onSubmit={handleSubmit}>
               <div className="max-w-[350px] space-y-5">
@@ -242,7 +260,7 @@ export const RenderForm = ({
                 ))}
                 {fieldList?.length > 0 && (
                   <div className="pt-6">
-                    <Button text="Submit" />
+                    <Button text="Submit" isDisabled={templatePreview} />
                   </div>
                 )}
               </div>
@@ -250,13 +268,15 @@ export const RenderForm = ({
           </div>
         </div>
       )}
-      <Link
-        to="/"
-        className="fixed bottom-0 lg:bottom-8 right-0 lg:right-10 w-full lg:w-fit px-3 py-3 flex justify-center items-center space-x-2 text-sm font-semibold bg-white rounded-md shadow"
-      >
-        <img src={logo} alt="logo" className="w-6 h-6" />
-        <p>Made with FormEasy</p>
-      </Link>
+      {!templatePreview && (
+        <Link
+          to="/"
+          className="fixed bottom-0 lg:bottom-8 right-0 lg:right-10 w-full lg:w-fit px-3 py-3 flex justify-center items-center space-x-2 text-sm font-semibold bg-white rounded-md shadow"
+        >
+          <img src={logo} alt="logo" className="w-6 h-6" />
+          <p>Made with FormEasy</p>
+        </Link>
+      )}
     </div>
   );
 };

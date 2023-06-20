@@ -67,7 +67,7 @@ export const Navbar = () => {
           )}
         </button>
       </div>
-      <div>
+      <div className="w-fit">
         <Link to="/">
           <p className="text-sm font-medium w-fit pb-2 border-b-2 border-gray-900 cursor-pointer">
             My Forms

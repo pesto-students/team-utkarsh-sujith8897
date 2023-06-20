@@ -215,7 +215,7 @@ export const CreateForm = ({
     }
   };
 
-  const handleAddOption = (e: any, index: number) => {
+  const handleAddOption = (index: number) => {
     let updatedRightItems = [...rightItems];
     let type = updatedRightItems?.[index]?.type;
     if (type === EFieldTypes.CHECKBOX || type === EFieldTypes.DROPDOWN) {

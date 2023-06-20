@@ -5,14 +5,14 @@ export const CheckboxInput = ({
   preview = false,
   options = ["Option 1", "Option 2"],
   handleEditOption = (e: any, index: number, optionIndex: number) => null,
-  handleAddOption = (e: any, index: number) => null,
+  handleAddOption = (index: number) => null,
   handleDeleteOption = (index: number, optionIndex: number) => null,
 }: {
   index: number;
   preview?: boolean;
   options: string[];
   handleEditOption: (e: any, index: number, optionIndex: number) => void;
-  handleAddOption: (e: any, index: number) => void;
+  handleAddOption: (index: number) => void;
   handleDeleteOption: (index: number, optionIndex: number) => void;
 }) => {
   const handleKeyDown = (e: any, optionIndex: number) => {
@@ -46,7 +46,7 @@ export const CheckboxInput = ({
       ))}
       {!preview && (
         <button
-          onClick={(e) => handleAddOption(e, index)}
+          onClick={(e) => handleAddOption(index)}
           className="text-[12px] font-semibold border-2 border-gray-300 mt-2 px-2 py-0 rounded-md active:scale-95"
         >
           Add

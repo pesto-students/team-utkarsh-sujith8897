@@ -86,7 +86,7 @@ export const Forms = () => {
                 name="searchForms"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="mt-1 block w-36 md:w-44 appearance-none rounded-md border-2 border-gray-300 bg-white px-3 py-1 lg:py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+                className="text-sm mt-1 block w-36 md:w-44 appearance-none rounded-md border-2 border-gray-200 bg-white px-3 py-1.5 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
               />
             </div>
             <div>
