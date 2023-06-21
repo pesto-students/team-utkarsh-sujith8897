@@ -26,7 +26,9 @@ export const Dialog = ({
     >
       <div className=" relative space-y-6 bg-white w-100 h-100 px-12 py-6 rounded shadow-md">
         <div>
-          <p className="text-lg font-semibold">{title}</p>
+          <p className="text-lg font-semibold text-center max-w-[330px]">
+            {title}
+          </p>
         </div>
         <div className="flex space-x-8 justify-center items-center font-semibold">
           <button
@@ -43,7 +45,7 @@ export const Dialog = ({
             onClick={handleSubmit}
             className={`${
               isLoading ? "cursor-not-allowed opacity-60" : "cursor-pointer"
-            } flex space-x-2 h-10 w-full items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none border-red-500 bg-red-500 text-white active:scale-95`}
+            } flex space-x-2 h-10 w-full items-center justify-center space-x-2 rounded-md border text-sm transition-all focus:outline-none border-black bg-black text-white active:scale-95`}
           >
             {isLoading && <LoadingSpinner white={true} />}
             <p>{submitText}</p>

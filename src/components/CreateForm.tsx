@@ -329,7 +329,7 @@ export const CreateForm = ({
     navigate("/dashboard");
   };
 
-  const handleDialogCancel = () => {
+  const handleDialogSubmit = () => {
     navigate("/dashboard");
   };
 
@@ -803,11 +803,11 @@ export const CreateForm = ({
       <Dialog
         open={dialog}
         cancelText="No"
-        submitText="Save as draft"
-        title="Do you want to save as draft?"
+        submitText="Leave"
+        title="Changes you made may not be saved. You want to leave?"
         handleClose={() => setDialog(false)}
-        handleSubmit={() => handleSubmit(false)}
-        handleCancel={handleDialogCancel}
+        handleSubmit={handleDialogSubmit}
+        handleCancel={() => setDialog(false)}
       />
     </div>
   );
