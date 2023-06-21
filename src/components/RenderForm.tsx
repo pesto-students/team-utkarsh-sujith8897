@@ -3,13 +3,9 @@ import { Label } from "./ui/Label";
 import { EFieldTypes } from "../store/type/field.type";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
-import { DropDown } from "./ui/DropDown";
-import { CheckboxInput } from "./ui/CheckboxInput";
 import { FileInput } from "./ui/FileInput";
-import { DateInput } from "./ui/DateInput";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
-import { useBackdrop } from "../hooks/Backdrop";
 import { supabaseClient } from "../config/supabase-client";
 import { useToast } from "../hooks/Toast";
 
@@ -29,7 +25,6 @@ export const RenderForm = ({
   handleClose?: () => void;
 }) => {
   const selectRef = useRef<any>(null);
-  const { showLoader, hideLoader } = useBackdrop();
   const { showToast } = useToast();
 
   const [fieldList, setFieldList] = useState<any[]>(fields);
@@ -37,6 +32,7 @@ export const RenderForm = ({
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
   const [fileError, setFileError] = useState<boolean>(false);
   const [checkboxError, setCheckboxError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: any) => {
     e?.preventDefault?.();
@@ -63,12 +59,11 @@ export const RenderForm = ({
     if (preview) {
       setSubmitted(true);
     } else {
-      showLoader();
+      setIsLoading(true);
       const { data, error } = await supabaseClient
         .from("form_submissions")
         .insert({ form_id: id, submissions: fieldList });
-      console.log({ error });
-      hideLoader();
+      setIsLoading(false);
       if (!error) {
         setSubmitted(true);
       }
@@ -260,7 +255,11 @@ export const RenderForm = ({
                 ))}
                 {fieldList?.length > 0 && (
                   <div className="pt-6">
-                    <Button text="Submit" isDisabled={templatePreview} />
+                    <Button
+                      text="Submit"
+                      isDisabled={templatePreview}
+                      isLoading={isLoading}
+                    />
                   </div>
                 )}
               </div>
