@@ -23,7 +23,7 @@ export const Submissions = ({ id, form_uid }: any) => {
         return row;
       });
       const allLabels: any = {};
-      submissions.forEach((row) => {
+      formattedData.forEach((row) => {
         Object.keys(row).forEach((label) => {
           allLabels[label] = true;
         });
@@ -67,7 +67,7 @@ export const Submissions = ({ id, form_uid }: any) => {
         <div className="flex justify-center items-center h-60 w-full">
           <LoadingSpinner />
         </div>
-      ) : submissions?.length ? (
+      ) : submissions?.length > 0 ? (
         <div className="space-y-6">
           <div className="flex justify-end w-full">
             <div>
