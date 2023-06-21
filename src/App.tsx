@@ -11,6 +11,7 @@ import { FormPage } from "./components/FormPage";
 import { BackdropProvider } from "./hooks/Backdrop";
 import { SubmissionPage } from "./components/SubmissionPage";
 import { FormEdit } from "./components/FormEdit";
+import { TemplateFormEdit } from "./components/TemplateFormEdit";
 
 function App() {
   return (
@@ -44,6 +45,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <SubmissionPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/templates/:id/edit"
+                  element={
+                    <ProtectedRoute>
+                      <TemplateFormEdit />
                     </ProtectedRoute>
                   }
                 />
