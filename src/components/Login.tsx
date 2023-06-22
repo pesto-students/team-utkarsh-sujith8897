@@ -7,11 +7,13 @@ import { supabaseClient } from "../config/supabase-client";
 import { useAuth } from "../hooks/Auth";
 import { useToast } from "../hooks/Toast";
 import { EFieldTypes } from "../store/type/field.type";
+import { useBackdrop } from "../hooks/Backdrop";
 
 export const Login = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const { showLoader, hideLoader } = useBackdrop();
 
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,6 +38,20 @@ export const Login = () => {
     );
   };
 
+  const handleLoginGuest = async () => {
+    showLoader();
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: "pesto@project.com",
+      password: "123456",
+    });
+    hideLoader();
+    if (error) {
+      return showToast("Something failed!", error?.message);
+    }
+    showToast("Logged in successfully", "Now you can create your forms!");
+    navigate("/dashboard");
+  };
+
   useEffect(() => {
     if (user) {
       navigate("/");
@@ -52,6 +68,9 @@ export const Login = () => {
           <p className="text-sm text-gray-500">
             Use your email address to sign in.
           </p>
+        </div>
+        <div className="px-4 py-6 sm:px-16">
+          <Button text="Guest Login" onClick={handleLoginGuest} />
         </div>
         <form
           className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16"

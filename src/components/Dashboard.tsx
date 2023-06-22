@@ -19,7 +19,9 @@ export const Dashboard = () => {
           {dialog && <TemplatesDialog onClose={() => setDialog(false)} />}
         </div>
       </div>
-      <Forms />
+      <div className="pb-28">
+        <Forms />
+      </div>
     </div>
   );
 };

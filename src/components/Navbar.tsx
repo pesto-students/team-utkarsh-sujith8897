@@ -42,7 +42,10 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="sticky top-0 w-full bg-white border-b pt-6 px-4 md:px-16 lg:px-32 space-y-8">
+    <div
+      className="sticky top-0 w-full bg-white border-b pt-6 px-4 md:px-16 lg:px-32 space-y-8"
+      style={{ zIndex: 10 }}
+    >
       <div className="flex justify-between items-center">
         <Link to="/">
           <img src={logo} alt="logo" />

@@ -6,6 +6,8 @@ export const Home = () => {
 
   if (user) {
     return <Navigate to="/dashboard" />;
+  } else {
+    return <Navigate to="/login" />;
   }
 
   return <div>Home</div>;
