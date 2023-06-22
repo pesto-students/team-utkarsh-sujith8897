@@ -27,6 +27,9 @@ export const Login = () => {
     });
     setEmail("");
     setIsLoading(false);
+    if (error) {
+      return showToast("Something failed!", error?.message);
+    }
     showToast(
       "Magic link sent!",
       "Please check your mail for your magic link."

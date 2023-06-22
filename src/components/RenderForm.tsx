@@ -8,6 +8,7 @@ import logo from "../logo.png";
 import { Link } from "react-router-dom";
 import { supabaseClient } from "../config/supabase-client";
 import { useToast } from "../hooks/Toast";
+import { v4 as uuidv4 } from "uuid";
 
 export const RenderForm = ({
   preview = false,
@@ -60,9 +61,34 @@ export const RenderForm = ({
       setSubmitted(true);
     } else {
       setIsLoading(true);
+
+      if (selectedFile) {
+        // Extract the file extension
+        const fileExtension = selectedFile.name.split(".").pop();
+
+        // Generate a unique filename with the UUID and the file extension
+        const uniqueFilename = `${uuidv4()}.${fileExtension}`;
+
+        const { data: fileData, error: fileError } =
+          await supabaseClient.storage
+            .from("uploads")
+            .upload(uniqueFilename, selectedFile);
+        if (fileError) {
+          setIsLoading(false);
+          return showToast("File upload failed", "Please try again");
+        }
+        for (let i = 0; i < fieldList.length; i++) {
+          if (fieldList[i]?.type === EFieldTypes.FILE) {
+            fieldList[i].value =
+              process.env.REACT_APP_SUPABASE_STORAGE_URL + "/" + uniqueFilename;
+          }
+        }
+      }
+
       const { data, error } = await supabaseClient
         .from("form_submissions")
         .insert({ form_id: id, submissions: fieldList });
+
       setIsLoading(false);
       if (!error) {
         setSubmitted(true);
