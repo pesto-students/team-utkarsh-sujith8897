@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import { supabaseClient } from "../config/supabase-client";
 import { Button } from "./ui/Button";
+import { EFieldTypes } from "../store/type/field.type";
 
 export const Submissions = ({ id, form_uid }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,7 +19,10 @@ export const Submissions = ({ id, form_uid }: any) => {
       const formattedData = data.map((entry) => {
         const row: any = {};
         entry.submissions.forEach((submission: any) => {
-          row[submission.label] = submission.value;
+          row[submission.label] = {
+            value: submission.value,
+            type: submission.type,
+          };
         });
         return row;
       });
@@ -61,6 +65,8 @@ export const Submissions = ({ id, form_uid }: any) => {
     }
   }, []);
 
+  console.log({ submissions });
+
   return (
     <div className="py-10">
       {isLoading ? (
@@ -74,26 +80,47 @@ export const Submissions = ({ id, form_uid }: any) => {
               <Button text="Download as CSV" onClick={handleDownload} />
             </div>
           </div>
-          <div className="bg-white rounded p-4 space-y-4 shadow">
-            <div className="flex justify-around items-center py-4 bg-gray-100 rounded-md shadow-md">
+          <div className="bg-white rounded p-4 space-y-4 shadow overflow-x-auto left-panel">
+            <div className="flex space-x-8 px-6 py-4 bg-gray-100 min-w-max rounded-md shadow-md">
               {labels.map((label, index) => (
-                <p key={index} className="text-sm font-semibold min-w-[100px]">
+                <p
+                  key={index}
+                  className="text-sm font-semibold text-center min-w-[200px] max-w-[200px] break-words"
+                >
                   {label}
                 </p>
               ))}
             </div>
-            <div className="space-y-4">
+            <div className="space-y-4 min-w-max">
               {submissions.map((row: any, rowIndex: number) => (
                 <div
                   key={rowIndex}
-                  className="flex justify-around items-center py-3 bg-white rounded-md border-2"
+                  className="flex space-x-8 px-6 py-3 bg-white rounded-md border-2"
                 >
                   {labels.map((label, cellIndex) => (
                     <p
                       key={cellIndex}
-                      className="text-sm font-semibold min-w-[100px]"
+                      className="text-sm font-semibold text-center min-w-[200px] max-w-[200px]  break-words"
                     >
-                      {row[label] || "-"}
+                      {row[label]?.value?.length ? (
+                        row[label].type === EFieldTypes.FILE ||
+                        row[label].type === EFieldTypes.URL ? (
+                          <a
+                            href={row[label].value}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600"
+                          >
+                            {row[label].type === EFieldTypes.URL
+                              ? row[label].value
+                              : "File Link"}
+                          </a>
+                        ) : (
+                          row[label].value
+                        )
+                      ) : (
+                        "-"
+                      )}
                     </p>
                   ))}
                 </div>
