@@ -620,32 +620,34 @@ export const CreateForm = ({
                   ref={provided.innerRef}
                 >
                   {rightItems.map((item: any, index) => (
-                    <Draggable
-                      key={`${item.id}-${index}-right`}
-                      draggableId={`${item.id}-${index}-right`}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          id={`${item.id}-${index}`}
-                        >
-                          <RenderFields
-                            item={item}
-                            index={index}
-                            handleDelete={handleDelete}
-                            handleEditLabel={handleEditLabel}
-                            handleEditPlaceholder={handleEditPlaceholder}
-                            handleEditOption={handleEditOption}
-                            handleAddOption={handleAddOption}
-                            handleDeleteOption={handleDeleteOption}
-                            handleRequired={handleRequired}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
+                    <div key={index} className="max-w-[300px] lg:max-w-[350px]">
+                      <Draggable
+                        key={`${item.id}-${index}-right`}
+                        draggableId={`${item.id}-${index}-right`}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            id={`${item.id}-${index}`}
+                          >
+                            <RenderFields
+                              item={item}
+                              index={index}
+                              handleDelete={handleDelete}
+                              handleEditLabel={handleEditLabel}
+                              handleEditPlaceholder={handleEditPlaceholder}
+                              handleEditOption={handleEditOption}
+                              handleAddOption={handleAddOption}
+                              handleDeleteOption={handleDeleteOption}
+                              handleRequired={handleRequired}
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    </div>
                   ))}
                   {provided.placeholder}
                   {rightItems?.length === 0 && (

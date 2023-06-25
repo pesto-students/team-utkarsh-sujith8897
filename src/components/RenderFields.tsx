@@ -118,7 +118,7 @@ export const RenderFields = ({
   };
 
   return (
-    <div className="max-w-[300px] group">
+    <div className="group">
       {preview ? (
         <Label text={item?.label} htmlFor={item.id} />
       ) : !editLabel ? (
