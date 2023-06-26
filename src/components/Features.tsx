@@ -17,17 +17,9 @@ export const Features = () => {
       path: "/drag-and-drop.MOV",
     },
     {
-      icon: "/copy.svg",
-      title: "Drag and drop fields",
-      description:
-        "Drag and drop fields from left panel and you can reorder within the fields in created form",
-      path: "/drag-and-drop.MOV",
-    },
-    {
-      icon: "/copy.svg",
-      title: "Drag and drop fields",
-      description:
-        "Drag and drop fields from left panel and you can reorder within the fields in created form",
+      icon: "/download.svg",
+      title: "Download submissions",
+      description: "Collect submissions and download them in csv format",
       path: "/drag-and-drop.MOV",
     },
   ];
