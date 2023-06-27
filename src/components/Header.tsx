@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../logo.png";
 
 export const Header = () => {
   return (
@@ -10,7 +9,7 @@ export const Header = () => {
     <div className="w-full py-6">
       <div className="flex justify-between items-center">
         <Link to="/">
-          <img src={logo} alt="logo" />
+          <img src="/Logo.svg" alt="logo" />
         </Link>
         <div>
           <ul className="flex space-x-4 md:space-x-8 items-center text-sm font-semibold">

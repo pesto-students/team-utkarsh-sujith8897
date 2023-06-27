@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../logo.png";
 import { useAuth } from "../hooks/Auth";
 import { useEffect, useRef, useState } from "react";
 import { supabaseClient } from "../config/supabase-client";
@@ -48,7 +47,7 @@ export const Navbar = () => {
     >
       <div className="flex justify-between items-center">
         <Link to="/">
-          <img src={logo} alt="logo" />
+          <img src="/Logo.svg" alt="logo" />
         </Link>
         <button
           ref={popoverRef}

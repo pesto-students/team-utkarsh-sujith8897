@@ -60,6 +60,7 @@ export const Features = () => {
               autoPlay
               loop
               muted
+              playsInline
               className="shadow-xl w-full rounded-md bg-gray-200 p-2"
             />
           </div>
