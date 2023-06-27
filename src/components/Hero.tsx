@@ -2,13 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
-    <div
-    // className="mt-6 md:mt-16"
-    >
-      {/* <div className="grid grid-cols-2 gap-4 ">
-        <div>Text</div>
-        <div>Video</div>
-      </div> */}
+    <div className="pt-0 md:pt-8">
       <div className="grid grid-cols-1 gap-y-12 lg:items-center lg:grid-cols-2 xl:grid-cols-2">
         <div className="text-center xl:col-span-1 lg:text-left md:px-16 lg:px-0 xl:pr-20">
           <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight">

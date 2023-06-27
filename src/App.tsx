@@ -12,6 +12,8 @@ import { BackdropProvider } from "./hooks/Backdrop";
 import { SubmissionPage } from "./components/SubmissionPage";
 import { FormEdit } from "./components/FormEdit";
 import { TemplateFormEdit } from "./components/TemplateFormEdit";
+import { TemplatesPage } from "./components/TemplatesPage";
+import { LandingPageWrapper } from "./components/LandingPageWrapper";
 
 function App() {
   return (
@@ -23,7 +25,14 @@ function App() {
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/" element={<Home />} />
+                <Route
+                  path="/"
+                  element={
+                    <LandingPageWrapper>
+                      <Home />
+                    </LandingPageWrapper>
+                  }
+                />
                 <Route
                   path="/dashboard"
                   element={
@@ -57,6 +66,14 @@ function App() {
                   }
                 />
                 <Route path="/r/:id" element={<FormPage />} />
+                <Route
+                  path="templates"
+                  element={
+                    <LandingPageWrapper>
+                      <TemplatesPage />
+                    </LandingPageWrapper>
+                  }
+                />
               </Routes>
             </BackdropProvider>
           </ToastProvider>

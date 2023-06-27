@@ -1,12 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const Header = () => {
   const [toggleMenu, setToggleMenu] = useState<boolean>(false);
+  const [sectionClick, setSectionClick] = useState<boolean>(false);
 
-  const handleMobileLinkClick = () => {
+  const handleMobileLinkClick = (link: string = "") => {
     setToggleMenu(false);
+    if (link === "features" || link === "pricing") {
+      handleSectionClick();
+    }
   };
+
+  const handleSectionClick = () => {
+    setSectionClick((prv) => !prv);
+  };
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    let myElement: any = "";
+    switch (hash) {
+      case "#features":
+        myElement = document.getElementById("features");
+        myElement?.scrollIntoView?.({ behavior: "smooth" });
+        break;
+      case "#pricing":
+        myElement = document.getElementById("pricing");
+        myElement?.scrollIntoView?.({ behavior: "smooth" });
+        break;
+      default:
+        break;
+    }
+  }, [sectionClick]);
 
   return (
     <div className="w-full py-6">
@@ -18,10 +43,18 @@ export const Header = () => {
           <div className="hidden md:block">
             <ul className="flex space-x-8 items-center">
               <li>
-                <a href="#features">Features</a>
+                <Link to="/#features" onClick={handleSectionClick}>
+                  Features
+                </Link>
               </li>
-              <li>Pricing</li>
-              <li>Templates</li>
+              <li>
+                <Link to="/#pricing" onClick={handleSectionClick}>
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link to="/templates">Templates</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -61,19 +94,33 @@ export const Header = () => {
           <div className="relative w-full px-8 py-12 bg-white space-y-8">
             <ul className="space-y-4 flex flex-col">
               <li>
-                <a href="#features" onClick={handleMobileLinkClick}>
+                <Link
+                  to="/#features"
+                  onClick={() => handleMobileLinkClick("features")}
+                >
                   Features
-                </a>
+                </Link>
               </li>
-              <li>Pricing</li>
-              <li>Templates</li>
+              <li>
+                <Link
+                  to="/#pricing"
+                  onClick={() => handleMobileLinkClick("pricing")}
+                >
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link to="/templates" onClick={() => handleMobileLinkClick()}>
+                  Templates
+                </Link>
+              </li>
             </ul>
             <ul className="flex space-x-4">
               <li>
                 <Link
                   to="/login"
                   className="bg-gray-200 px-4 py-2 rounded-md"
-                  onClick={handleMobileLinkClick}
+                  onClick={() => handleMobileLinkClick()}
                 >
                   Login
                 </Link>
@@ -82,7 +129,7 @@ export const Header = () => {
                 <Link
                   to="/register"
                   className="bg-black text-white px-4 py-2 rounded-md"
-                  onClick={handleMobileLinkClick}
+                  onClick={() => handleMobileLinkClick()}
                 >
                   Signup
                 </Link>
