@@ -14,13 +14,13 @@ export const Features = () => {
       icon: "/template.svg",
       title: "Use pre made templates",
       description: "Create a form in seconds using our form templates",
-      path: "/drag-and-drop.MOV",
+      path: "/templates.MOV",
     },
     {
       icon: "/download.svg",
       title: "Download submissions",
       description: "Collect submissions and download them in csv format",
-      path: "/drag-and-drop.MOV",
+      path: "/download.MOV",
     },
   ];
 
@@ -34,6 +34,7 @@ export const Features = () => {
           <div className="flex flex-col justify-center items-center space-y-4">
             {features?.map?.((item: any, index: number) => (
               <div
+                key={index}
                 onClick={() => setSelectedFeature(index)}
                 className={`${
                   selectedFeature === index
@@ -59,7 +60,7 @@ export const Features = () => {
               autoPlay
               loop
               muted
-              className="shadow-xl"
+              className="shadow-xl w-full rounded-md bg-gray-200 p-2"
             />
           </div>
         </div>
