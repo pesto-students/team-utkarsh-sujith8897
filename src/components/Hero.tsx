@@ -30,7 +30,7 @@ export const Hero = () => {
         <div className="xl:col-span-1">
           <iframe
             className="w-full h-[200px] md:h-[350px] shadow-lg rounded-md transition-transform duration-300 ease-in-out hover:scale-105"
-            // src="https://www.youtube.com/embed/fea5OljJcls"
+            src="https://www.youtube.com/embed/a2ZyQ5gh1I0"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen

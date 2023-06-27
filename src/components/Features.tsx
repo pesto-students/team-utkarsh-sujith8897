@@ -27,7 +27,7 @@ export const Features = () => {
   const [selectedFeature, setSelectedFeature] = useState<number>(0);
 
   return (
-    <div className="py-10">
+    <div className="py-10" id="features">
       <p className="text-3xl font-bold text-center">Features</p>
       <div className="py-10 lg:py-20">
         <div className="grid grid-cols-1 gap-y-12 lg:items-center lg:grid-cols-2 xl:grid-cols-2">
