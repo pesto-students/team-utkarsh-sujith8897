@@ -7,6 +7,7 @@ export const formTemplates = [
     {
         id: "contact-us",
         name: "Contact Us",
+        description: "Allows users to get in touch, typically used for customer inquiries or support.",
         fields: [
             {
                 id: "text",
@@ -48,6 +49,7 @@ export const formTemplates = [
     {
         id: "feedback",
         name: "Feedback",
+        description: "Collects user feedback about products or services to help in improving them.",
         fields: [
             {
                 id: "text",
@@ -84,6 +86,7 @@ export const formTemplates = [
     {
         id: "job-application",
         name: "Job Application",
+        description: "Enables applicants to apply for a job position by submitting relevant information and documents.",
         fields: [
             {
                 id: "text",
@@ -125,6 +128,7 @@ export const formTemplates = [
     {
         id: "event-registration",
         name: "Event Registration",
+        description: "Allows users to register for events, providing relevant information and preferences.",
         fields: [
             {
                 id: "text",
@@ -167,6 +171,7 @@ export const formTemplates = [
     {
         id: "survey",
         name: "Customer Survey",
+        description: "Collects customer opinions and feedback on services or products for analysis and improvements.",
         fields: [
             {
                 id: "dropdown",
@@ -194,6 +199,7 @@ export const formTemplates = [
     {
         id: "order-form",
         name: "Product Order Form",
+        description: "Enables customers to place orders for products, providing necessary details for shipping and billing.",
         fields: [
             {
                 id: "text",
@@ -243,6 +249,7 @@ export const formTemplates = [
     {
         id: "newsletter",
         name: "Newsletter Subscription",
+        description: "Allows users to subscribe to a newsletter by entering their email address.",
         fields: [
             {
                 id: "email",
@@ -256,6 +263,7 @@ export const formTemplates = [
     {
         id: "quiz",
         name: "Quiz Form",
+        description: "Allows users to participate in a quiz, answering questions from a set of options.",
         fields: [
             {
                 id: "text",
@@ -300,6 +308,7 @@ export const formTemplates = [
     {
         id: "support-ticket",
         name: "Support Ticket",
+        description: "Enables users to raise support tickets for issues they are facing, typically used in customer support scenarios.",
         fields: [
             {
                 id: "text",
@@ -327,6 +336,7 @@ export const formTemplates = [
     {
         id: "booking-form",
         name: "Appointment Booking",
+        description: "Allows users to book an appointment by choosing a date and providing contact information.",
         fields: [
             {
                 id: "text",
@@ -364,6 +374,263 @@ export const formTemplates = [
                 placeholder: "Additional info",
             },
         ],
+    },
+    {
+        id: "donation-form",
+        name: "Donation Form",
+        description: "Allows users to make donations to a cause or organization.",
+        fields: [
+            {
+                id: "name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "email",
+                type: EFieldTypes.EMAIL,
+                label: "Email",
+                required: true,
+                placeholder: "name@example.com",
+            },
+            {
+                id: "amount",
+                type: EFieldTypes.NUMBER,
+                label: "Donation Amount",
+                required: true,
+                placeholder: "Amount",
+            }
+        ]
+    },
+    {
+        id: "membership-form",
+        name: "Membership Form",
+        description: "Allows users to apply for membership in a club or organization.",
+        fields: [
+            {
+                id: "name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "email",
+                type: EFieldTypes.EMAIL,
+                label: "Email",
+                required: true,
+                placeholder: "name@example.com",
+            },
+            {
+                id: "membership_type",
+                type: EFieldTypes.DROPDOWN,
+                label: "Membership Type",
+                options: ["Basic", "Premium", "VIP"],
+                required: true,
+                placeholder: "Select Membership Type",
+            }
+        ]
+    },
+    {
+        id: "event-feedback",
+        name: "Event Feedback Form",
+        description: "Allows participants to provide feedback after an event.",
+        fields: [
+            {
+                id: "rating",
+                type: EFieldTypes.DROPDOWN,
+                label: "Overall Rating",
+                options: ["1", "2", "3", "4", "5"],
+                required: true,
+                placeholder: "Select Rating",
+            },
+            {
+                id: "comments",
+                type: EFieldTypes.TEXT,
+                label: "Additional Comments",
+                required: false,
+                placeholder: "Enter comments",
+            }
+        ]
+    },
+    {
+        id: "interview-schedule",
+        name: "Interview Schedule Form",
+        description: "Schedule an interview for a job position.",
+        fields: [
+            {
+                id: "name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "position",
+                type: EFieldTypes.TEXT,
+                label: "Position",
+                required: true,
+                placeholder: "Position",
+            },
+            {
+                id: "date",
+                type: EFieldTypes.DATE,
+                label: "Preferred Date",
+                required: true,
+                placeholder: "Select Date",
+            }
+        ]
+    },
+    {
+        id: "service-request",
+        name: "Service Request Form",
+        description: "Allow customers to request a service or support.",
+        fields: [
+            {
+                id: "name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "service_type",
+                type: EFieldTypes.DROPDOWN,
+                label: "Type of Service",
+                options: ["Repair", "Installation", "General Inquiry"],
+                required: true,
+                placeholder: "Select Type",
+            },
+            {
+                id: "details",
+                type: EFieldTypes.TEXT,
+                label: "Details",
+                required: true,
+                placeholder: "Enter details",
+            }
+        ]
+    },
+    {
+        id: "appointment-reschedule",
+        name: "Appointment Reschedule Form",
+        description: "Allow users to reschedule an existing appointment.",
+        fields: [
+            {
+                id: "appointment_id",
+                type: EFieldTypes.NUMBER,
+                label: "Appointment ID",
+                required: true,
+                placeholder: "Enter Appointment ID",
+            },
+            {
+                id: "new_date",
+                type: EFieldTypes.DATE,
+                label: "New Date",
+                required: true,
+                placeholder: "Select New Date",
+            }
+        ]
+    },
+    {
+        id: "course-enrollment",
+        name: "Course Enrollment Form",
+        description: "Allow students to enroll in a course.",
+        fields: [
+            {
+                id: "name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "course",
+                type: EFieldTypes.DROPDOWN,
+                label: "Course",
+                options: ["Math", "Physics", "Chemistry"],
+                required: true,
+                placeholder: "Select Course",
+            }
+        ]
+    },
+    {
+        id: "asset-request",
+        name: "Asset Request Form",
+        description: "Allow employees to request assets or resources for their work.",
+        fields: [
+            {
+                id: "employee_name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "asset",
+                type: EFieldTypes.DROPDOWN,
+                label: "Asset",
+                options: ["Laptop", "Monitor", "Desk"],
+                required: true,
+                placeholder: "Select Asset",
+            }
+        ]
+    },
+    {
+        id: "travel-booking",
+        name: "Travel Booking Form",
+        description: "Allow users to book travel arrangements.",
+        fields: [
+            {
+                id: "name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "destination",
+                type: EFieldTypes.TEXT,
+                label: "Destination",
+                required: true,
+                placeholder: "Enter Destination",
+            },
+            {
+                id: "date",
+                type: EFieldTypes.DATE,
+                label: "Travel Date",
+                required: true,
+                placeholder: "Select Date",
+            }
+        ]
+    },
+    {
+        id: "bug-report",
+        name: "Bug Report Form",
+        description: "Allow users to report bugs or issues with a product or service.",
+        fields: [
+            {
+                id: "name",
+                type: EFieldTypes.TEXT,
+                label: "Name",
+                required: true,
+                placeholder: "Your Name",
+            },
+            {
+                id: "issue",
+                type: EFieldTypes.TEXT,
+                label: "Issue",
+                required: true,
+                placeholder: "Describe the issue",
+            },
+            {
+                id: "screenshot",
+                type: EFieldTypes.FILE,
+                label: "Screenshot (optional)",
+                required: false,
+                placeholder: "Upload Screenshot",
+            }
+        ]
     },
 ];
 

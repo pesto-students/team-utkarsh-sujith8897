@@ -38,6 +38,7 @@ export const Login = () => {
   };
 
   const handleLoginGuest = async () => {
+    if (process.env.REACT_APP_ENV?.includes?.("prod")) return;
     showLoader();
     const { data, error } = await supabaseClient.auth.signInWithPassword({
       email: "pesto@project.com",
@@ -70,9 +71,11 @@ export const Login = () => {
             Use your email address to sign in.
           </p>
         </div>
-        <div className="px-4 py-6 sm:px-16">
-          <Button text="Guest Login" onClick={handleLoginGuest} />
-        </div>
+        {!process.env.REACT_APP_ENV?.includes?.("prod") && (
+          <div className="px-4 py-6 sm:px-16">
+            <Button text="Guest Login" onClick={handleLoginGuest} />
+          </div>
+        )}
         <form
           className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16"
           onSubmit={handleLogin}
