@@ -63,7 +63,9 @@ export const ToastProvider = ({ children }: any) => {
         >
           <div className="grid gap-1">
             <div className="text-sm font-semibold">{toast?.title}</div>
-            <div className="text-sm opacity-90">{toast?.description}</div>
+            <div className="text-sm opacity-90 line-clamp-3 break-words">
+              {toast?.description}
+            </div>
           </div>
           <button
             type="button"
