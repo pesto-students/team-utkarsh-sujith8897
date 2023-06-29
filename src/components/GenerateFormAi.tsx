@@ -16,7 +16,6 @@ export const GenerateFormAi = () => {
 
   const [content, setContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  //   const [formData, setFormData] = useState<any>(null);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
   const [generatedForms, setGeneratedForms] = useState<any[]>([]);
   const [selectedForm, setSelectedForm] = useState<number>(0);
@@ -162,6 +161,20 @@ export const GenerateFormAi = () => {
     const newFormId = await getFormId();
   };
 
+  const handleDeleteGeneratedForm = async (id: number) => {
+    setIsLoadingData(true);
+    const { data, error } = await supabaseClient
+      .from("ai_forms")
+      .delete()
+      .eq("user_id", user?.id)
+      .eq("id", id);
+    if (!error) {
+      await fetchGeneratedForms();
+      setSelectedForm(0);
+    }
+    setIsLoadingData(false);
+  };
+
   const fetchGeneratedForms = async () => {
     setIsLoadingData(true);
     const { data, error } = await supabaseClient
@@ -196,11 +209,36 @@ export const GenerateFormAi = () => {
                   key={index}
                   className={`${
                     selectedForm === index ? "shadow" : ""
-                  } bg-gray-100 w-full p-1 text-sm border rounded-md line-clamp-1 break-words hover:shadow`}
+                  } bg-gray-100 w-full p-1 text-sm border relative rounded-md line-clamp-1 break-words hover:shadow`}
                 >
-                  {form?.name?.length > 20
-                    ? form?.name?.substr(0, 20) + "..."
-                    : form?.name}
+                  <p>
+                    {form?.name?.length > 20
+                      ? form?.name?.substr(0, 20) + "..."
+                      : form?.name}
+                  </p>
+                  {selectedForm === index && (
+                    <div
+                      className="text-gray-800 hover:text-red-400"
+                      onClick={() => handleDeleteGeneratedForm(form?.id)}
+                    >
+                      <svg
+                        className="w-[14px] absolute right-3 top-[7px]"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        color="currentColor"
+                      >
+                        <path
+                          d="M20 9l-1.995 11.346A2 2 0 0116.035 22h-8.07a2 2 0 01-1.97-1.654L4 9M21 6h-5.625M3 6h5.625m0 0V4a2 2 0 012-2h2.75a2 2 0 012 2v2m-6.75 0h6.75"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></path>
+                      </svg>
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
