@@ -6,6 +6,7 @@ import { DropDown } from "./ui/DropDown";
 import { FileInput } from "./ui/FileInput";
 import { Label } from "./ui/Label";
 import { useToast } from "../hooks/Toast";
+import { isTypeInEnum } from "../utils/utils";
 
 export const RenderFields = ({
   item = {},
@@ -117,7 +118,7 @@ export const RenderFields = ({
     }
   };
 
-  return (
+  return isTypeInEnum(item?.type) ? (
     <div className="group">
       {preview ? (
         <Label text={item?.label} htmlFor={item.id} />
@@ -160,5 +161,5 @@ export const RenderFields = ({
         )}
       </div>
     </div>
-  );
+  ) : null;
 };

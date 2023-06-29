@@ -3,27 +3,26 @@ import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
 import { Configuration, OpenAIApi } from "openai";
 import { EFieldTypes } from "../store/type/field.type";
-import { getFormId, updateAIFormData } from "../utils/utils";
+import { updateAIFormData } from "../utils/utils";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import { RenderForm } from "./RenderForm";
 import { supabaseClient } from "../config/supabase-client";
 import { useAuth } from "../hooks/Auth";
 import { useToast } from "../hooks/Toast";
+import { useNavigate } from "react-router-dom";
 
 export const GenerateFormAi = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   const [content, setContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
   const [generatedForms, setGeneratedForms] = useState<any[]>([]);
   const [selectedForm, setSelectedForm] = useState<number>(0);
-
-  const configuration = new Configuration({
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
+  const [isLoadingSavingAIForm, setIsLoadingSavingAIForm] =
+    useState<boolean>(false);
 
   const updateAIForms = async ({
     name = "",
@@ -32,14 +31,20 @@ export const GenerateFormAi = () => {
     name: string;
     fields: any[];
   }) => {
+    setIsLoadingSavingAIForm(true);
     const { data, error } = await supabaseClient
       .from("ai_forms")
       .insert({ user_id: user?.id, name: name, fields: fields });
+    setIsLoadingSavingAIForm(false);
   };
 
   const handleGenerateForm = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
+    const configuration = new Configuration({
+      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
     const res: any = await openai.createChatCompletion({
       model: "gpt-4-0613",
       //   model: "gpt-3.5-turbo-0613",
@@ -157,10 +162,6 @@ export const GenerateFormAi = () => {
     }
   };
 
-  const handleUseAIForm = async () => {
-    const newFormId = await getFormId();
-  };
-
   const handleDeleteGeneratedForm = async (id: number) => {
     setIsLoadingData(true);
     const { data, error } = await supabaseClient
@@ -173,6 +174,10 @@ export const GenerateFormAi = () => {
       setSelectedForm(0);
     }
     setIsLoadingData(false);
+  };
+
+  const handleUseAIGeneratedForm = () => {
+    navigate(`/ai/${generatedForms[selectedForm]?.id}/edit`);
   };
 
   const fetchGeneratedForms = async () => {
@@ -271,10 +276,13 @@ export const GenerateFormAi = () => {
           <>
             <div className="w-full flex justify-end px-4 py-2">
               <button
-                onClick={handleUseAIForm}
-                className="text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none"
+                disabled={isLoadingSavingAIForm}
+                onClick={handleUseAIGeneratedForm}
+                className={`${
+                  isLoadingSavingAIForm ? "cursor-not-allowed opacity-70" : ""
+                } text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none`}
               >
-                Use Template
+                {isLoadingSavingAIForm ? "Loading..." : "Use Template"}
               </button>
             </div>
             <RenderForm

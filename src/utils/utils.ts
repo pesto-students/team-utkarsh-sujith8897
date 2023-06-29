@@ -678,7 +678,7 @@ export const updateAIFormData = (data: any) => {
         updatedFields.push(copyFields[i]);
     }
     data.fields = updatedFields;
-    console.log({ data })
+    // console.log({ data })
     return data
 }
 
@@ -702,3 +702,23 @@ export const getDataFromContent = (content: string) => {
     }
     return content
 }
+
+export const isTypeInEnum = (type: string): boolean => {
+
+    switch (type) {
+        case EFieldTypes.TEXT:
+        case EFieldTypes.EMAIL:
+        case EFieldTypes.SEARCH:
+        case EFieldTypes.URL:
+        case EFieldTypes.NUMBER:
+        case EFieldTypes.PHONE:
+        case EFieldTypes.DATE:
+        case EFieldTypes.CHECKBOX:
+        case EFieldTypes.DROPDOWN:
+        case EFieldTypes.FILE:
+            return true
+        default:
+            return false
+    }
+
+};

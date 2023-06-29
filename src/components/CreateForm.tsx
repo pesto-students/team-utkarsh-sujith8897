@@ -323,7 +323,7 @@ export const CreateForm = ({
   };
 
   const handleBack = () => {
-    if (!areArraysEqual(fields, rightItems)) {
+    if (!areArraysEqual(fields, rightItems) || name != title) {
       return setDialog(true);
     }
     navigate("/dashboard");
@@ -604,7 +604,7 @@ export const CreateForm = ({
               onChange={(e: any) => setTitle(e.target.value)}
               placeholder="Form title"
               type="text"
-              className="text-4xl font-bold max-w-[300px] outline-none bg-transparent mb-6"
+              className="text-4xl font-bold outline-none w-full bg-transparent mb-6"
             />
 
             <StrictModeDroppable droppableId="right">

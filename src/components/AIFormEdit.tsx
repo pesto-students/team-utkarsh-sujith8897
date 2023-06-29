@@ -5,9 +5,12 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import { useBackdrop } from "../hooks/Backdrop";
 import { Button } from "./ui/Button";
+import { useAuth } from "../hooks/Auth";
+import { supabaseClient } from "../config/supabase-client";
 
 export const AIFormEdit = () => {
   const { id } = useParams();
+  const { user } = useAuth();
   const { showLoader, hideLoader } = useBackdrop();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -19,13 +22,14 @@ export const AIFormEdit = () => {
     showLoader();
     const newFormId = await getFormId();
     setFormId(newFormId);
-    for (let i = 0; i < formTemplates?.length; i++) {
-      if (formTemplates[i]?.id === id) {
-        const formFields = structuredClone(formTemplates[i]?.fields);
-        setFields(formFields);
-        setName(formTemplates[i]?.name);
-        break;
-      }
+    const { data, error } = await supabaseClient
+      .from("ai_forms")
+      .select("id, name, fields")
+      .eq("user_id", user?.id)
+      .eq("id", id);
+    if (!error) {
+      setFields(data?.[0]?.fields);
+      setName(data?.[0]?.name);
     }
     setIsLoading(false);
     hideLoader();

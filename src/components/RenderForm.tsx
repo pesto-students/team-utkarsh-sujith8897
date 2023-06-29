@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { supabaseClient } from "../config/supabase-client";
 import { useToast } from "../hooks/Toast";
 import { v4 as uuidv4 } from "uuid";
+import { isTypeInEnum } from "../utils/utils";
 
 export const RenderForm = ({
   preview = false,
@@ -268,17 +269,21 @@ export const RenderForm = ({
             <h1 className="text-3xl font-semibold mb-8">{title}</h1>
             <form onSubmit={handleSubmit}>
               <div className="max-w-[350px] space-y-5">
-                {fieldList?.map?.((field: any, index: number) => (
-                  <div key={index}>
-                    <div className="flex items-center space-x-1">
-                      <Label text={field?.label} htmlFor={field.id} />
-                      <p className="text-lg font-semibold text-red-500">
-                        {field?.required && "*"}
-                      </p>
-                    </div>
-                    {render(field, index)}
-                  </div>
-                ))}
+                {fieldList?.map?.((field: any, index: number) => {
+                  if (isTypeInEnum(field?.type)) {
+                    return (
+                      <div key={index}>
+                        <div className="flex items-center space-x-1">
+                          <Label text={field?.label} htmlFor={field.id} />
+                          <p className="text-lg font-semibold text-red-500">
+                            {field?.required && "*"}
+                          </p>
+                        </div>
+                        {render(field, index)}
+                      </div>
+                    );
+                  } else return null;
+                })}
                 {fieldList?.length > 0 && (
                   <div className="pt-6">
                     <Button
