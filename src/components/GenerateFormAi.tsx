@@ -198,36 +198,40 @@ export const GenerateFormAi = () => {
   }, []);
 
   return isLoadingData ? (
-    <div className="md:w-[700px] h-[300px] flex justify-center items-center">
+    <div className="w-full h-[500px] flex justify-center items-center">
       <LoadingSpinner />
     </div>
   ) : (
-    <div className="flex space-x-0 md:space-x-4 space-y-4 md:space-y-0 flex-col md:flex-row">
-      <div className="w-full md:w-[300px] flex flex-row md:flex-col max-w-[300px] border rounded-md min-h-[400px] max-h-[400px] overflow-auto left-panel">
-        <div className="flex flex-col justify-between h-full px-4 py-2">
-          <div className="text-sm flex flex-col space-y-2">
+    <div className="w-full h-full p-4 flex space-x-0 md:space-x-4 space-y-4 md:space-y-0 flex-col md:flex-row">
+      <div className="w-[25%] p-2 border-2 rounded-md flex flex-col text-sm">
+        {generatedForms?.length === 0 ? (
+          <div className="h-full flex justify-center items-center italic">
+            No forms generated
+          </div>
+        ) : (
+          <div className="h-full flex flex-col space-y-2">
             <p>Forms Generated</p>
-            <div className="flex flex-col space-y-2 max-h-[250px] overflow-auto left-panel py-1">
+            <div className="flex flex-col h-full space-y-2 overflow-auto left-panel py-1">
               {generatedForms?.map?.((form: any, index: number) => (
                 <button
                   onClick={() => setSelectedForm(index)}
                   key={index}
                   className={`${
                     selectedForm === index ? "shadow" : ""
-                  } bg-gray-100 w-full p-1 text-sm border relative rounded-md line-clamp-1 break-words hover:shadow`}
+                  } bg-white border border-gray-300 w-full px-1 py-2 text-sm border relative rounded-md  hover:shadow`}
                 >
-                  <p>
+                  <p className="line-clamp-1 break-words">
                     {form?.name?.length > 20
                       ? form?.name?.substr(0, 20) + "..."
                       : form?.name}
                   </p>
                   {selectedForm === index && (
                     <div
-                      className="text-gray-800 hover:text-red-400"
+                      className="text-gray-800 hover:text-red-600"
                       onClick={() => handleDeleteGeneratedForm(form?.id)}
                     >
                       <svg
-                        className="w-[14px] absolute right-3 top-[7px]"
+                        className="w-[14px] absolute right-3 top-3"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         fill="none"
@@ -248,7 +252,48 @@ export const GenerateFormAi = () => {
               ))}
             </div>
           </div>
-          <form onSubmit={handleGenerateForm} className="space-y-2">
+        )}
+      </div>
+      <div className="w-[75%] p-2 border-2 rounded-md">
+        <div className="h-full flex flex-col justify-between">
+          <div className="max-h-full overflow-auto left-panel">
+            <div className="py-4">
+              {!generatedForms ? (
+                <div className="text-sm flex justify-center items-center h-full">
+                  {isLoading ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <p>Generate form using AI</p>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <div className="w-full flex justify-end px-4 py-2">
+                    <button
+                      disabled={isLoadingSavingAIForm}
+                      onClick={handleUseAIGeneratedForm}
+                      className={`${
+                        isLoadingSavingAIForm
+                          ? "cursor-not-allowed opacity-70"
+                          : ""
+                      } text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none`}
+                    >
+                      {isLoadingSavingAIForm ? "Loading..." : "Use Template"}
+                    </button>
+                  </div>
+                  <RenderForm
+                    templatePreview={true}
+                    fields={generatedForms[selectedForm]?.fields}
+                    title={generatedForms[selectedForm]?.name}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+          <form
+            onSubmit={handleGenerateForm}
+            className="flex space-x-4 items-center px-4"
+          >
             <Input
               type={EFieldTypes.TEXT}
               placeholder="Ex:- Create a feedback form"
@@ -257,7 +302,7 @@ export const GenerateFormAi = () => {
               value={content}
               onChange={(e: any) => setContent(e.target.value)}
             />
-            <div className="w-full">
+            <div className="w-[200px]">
               <Button
                 text="Generate"
                 loadingText="Generating..."
@@ -266,32 +311,6 @@ export const GenerateFormAi = () => {
             </div>
           </form>
         </div>
-      </div>
-      <div className="w-full md:w-[500px] max-h-[400px] overflow-y-auto left-panel pl-0 border rounded-md py-4">
-        {!generatedForms ? (
-          <div className="text-sm flex justify-center items-center h-full">
-            {isLoading ? <LoadingSpinner /> : <p>Generate form using AI</p>}
-          </div>
-        ) : (
-          <>
-            <div className="w-full flex justify-end px-4 py-2">
-              <button
-                disabled={isLoadingSavingAIForm}
-                onClick={handleUseAIGeneratedForm}
-                className={`${
-                  isLoadingSavingAIForm ? "cursor-not-allowed opacity-70" : ""
-                } text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none`}
-              >
-                {isLoadingSavingAIForm ? "Loading..." : "Use Template"}
-              </button>
-            </div>
-            <RenderForm
-              templatePreview={true}
-              fields={generatedForms[selectedForm]?.fields}
-              title={generatedForms[selectedForm]?.name}
-            />
-          </>
-        )}
       </div>
     </div>
   );

@@ -34,6 +34,10 @@ export const TemplatesDialog = ({
     setAIForm(false);
   };
 
+  const handleAIForm = () => {
+    navigate("/form-ai");
+  };
+
   return (
     <div
       className={`fixed top-0 left-0 w-full h-full z-50 flex justify-center ${
@@ -94,7 +98,7 @@ export const TemplatesDialog = ({
                 </div>
               </div>
             ) : (
-              <div>
+              <div className="min-h-[400px] max-h-[400px]">
                 <GenerateFormAi />
               </div>
             )}
@@ -122,7 +126,8 @@ export const TemplatesDialog = ({
               <p>Explore Templates</p>
             </button>
             <button
-              onClick={() => setAIForm(true)}
+              // onClick={() => setAIForm(true)}
+              onClick={handleAIForm}
               className="text-purple-600 border-purple-600 font-semibold w-full flex justify-center items-center space-x-2 border-2 border-gray-300 px-4 py-10 rounded-md transition-all duration-75 active:scale-95 hover:border-purple-500 text-purple-500"
             >
               <svg

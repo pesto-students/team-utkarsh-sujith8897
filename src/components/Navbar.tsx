@@ -12,6 +12,7 @@ export const Navbar = () => {
   const popoverRef = useRef<any>(null);
 
   const [toggleLogout, setToggleLogout] = useState<boolean>(false);
+  const [selectedTab, setSelectedTab] = useState<"forms" | "form-ai">("forms");
 
   const handleLogout = async () => {
     showLoader();
@@ -38,6 +39,14 @@ export const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    if (window.location.pathname?.includes?.("form-ai")) {
+      setSelectedTab("form-ai");
+    } else {
+      setSelectedTab("forms");
+    }
   }, []);
 
   return (
@@ -69,12 +78,49 @@ export const Navbar = () => {
           )}
         </button>
       </div>
-      <div className="w-fit">
-        <Link to="/">
-          <p className="text-sm font-medium w-fit pb-2 border-b-2 border-gray-900 cursor-pointer">
-            My Forms
-          </p>
-        </Link>
+      <div className="flex space-x-8">
+        <div className="w-fit">
+          <Link to="/">
+            <p
+              className={`${
+                selectedTab === "forms" ? "font-medium border-b-2" : ""
+              } text-sm  w-fit pb-2 border-gray-900 cursor-pointer`}
+            >
+              My Forms
+            </p>
+          </Link>
+        </div>
+        <div className="w-fit">
+          <Link to="/form-ai">
+            <p
+              className={`${
+                selectedTab === "form-ai" ? "font-medium border-b-2" : ""
+              } flex space-x-2 text-sm  w-fit pb-2 border-gray-900 cursor-pointer`}
+            >
+              <span>Form AI</span>
+              <svg
+                className="w-4 h-4 stroke-purple-600"
+                width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 15c4.875 0 7-2.051 7-7 0 4.949 2.11 7 7 7-4.89 0-7 2.11-7 7 0-4.89-2.125-7-7-7zM2 6.5c3.134 0 4.5-1.318 4.5-4.5 0 3.182 1.357 4.5 4.5 4.5-3.143 0-4.5 1.357-4.5 4.5 0-3.143-1.366-4.5-4.5-4.5z"
+                  className={`${
+                    selectedTab === "form-ai"
+                      ? "stroke-purple-600"
+                      : "stroke-gray-800"
+                  } `}
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+            </p>
+          </Link>
+        </div>
       </div>
     </div>
   );

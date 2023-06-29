@@ -15,6 +15,7 @@ import { TemplateFormEdit } from "./components/TemplateFormEdit";
 import { TemplatesPage } from "./components/TemplatesPage";
 import { LandingPageWrapper } from "./components/LandingPageWrapper";
 import { AIFormEdit } from "./components/AIFormEdit";
+import { AIFormGeneratorPage } from "./components/AIFormGeneratorPage";
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/form-ai"
+                  element={
+                    <ProtectedRoute>
+                      <AIFormGeneratorPage />
                     </ProtectedRoute>
                   }
                 />
