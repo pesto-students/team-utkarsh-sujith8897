@@ -93,8 +93,8 @@ export const FormItem = ({ item = {} }: { item: any }) => {
         <div className="flex justify-between items-center">
           <div>
             <div className="flex items-center space-x-1">
-              <p className="text-sm md:text-md md:text-lg font-semibold text-blue-700">
-                {`domain.com/r/${item?.form_id}`}
+              <p className="text-sm md:text-md md:text-lg font-semibold text-blue-700 line-clamp-1 break-words">
+                {`${window.location.host}/r/${item?.form_id}`}
               </p>
               <div className="cursor-pointer" onClick={handleCopy}>
                 <img
@@ -104,9 +104,14 @@ export const FormItem = ({ item = {} }: { item: any }) => {
                 />
               </div>
               <p className="text-[8px] md:text-xs font-medium text-gray-600 px-2 bg-gray-200 rounded-full">
-                {item?.published
-                  ? `${item?.submissions || 0} submissions`
-                  : "Draft"}
+                {item?.published ? (
+                  <span className="flex space-x-2">
+                    <span>{item?.submissions || 0}</span>
+                    <span className="hidden md:block">submissions</span>
+                  </span>
+                ) : (
+                  <span>Draft</span>
+                )}
               </p>
             </div>
             <p className="text-xs md:text-sm font-semibold text-gray-600">

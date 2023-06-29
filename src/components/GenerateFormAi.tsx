@@ -20,9 +20,10 @@ export const GenerateFormAi = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
   const [generatedForms, setGeneratedForms] = useState<any[]>([]);
-  const [selectedForm, setSelectedForm] = useState<number>(0);
+  const [selectedForm, setSelectedForm] = useState<number>(-1);
   const [isLoadingSavingAIForm, setIsLoadingSavingAIForm] =
     useState<boolean>(false);
+  const [deletingId, setDeletedId] = useState<number>(-1);
 
   const updateAIForms = async ({
     name = "",
@@ -163,25 +164,31 @@ export const GenerateFormAi = () => {
   };
 
   const handleDeleteGeneratedForm = async (id: number) => {
-    setIsLoadingData(true);
+    setDeletedId(id);
     const { data, error } = await supabaseClient
       .from("ai_forms")
       .delete()
       .eq("user_id", user?.id)
       .eq("id", id);
     if (!error) {
-      await fetchGeneratedForms();
+      await fetchGeneratedForms(false);
       setSelectedForm(0);
+      showToast(
+        "Successfully Deleted",
+        `Deleted your AI generated form with id ${id}`
+      );
     }
-    setIsLoadingData(false);
+    setDeletedId(-1);
   };
 
   const handleUseAIGeneratedForm = () => {
     navigate(`/ai/${generatedForms[selectedForm]?.id}/edit`);
   };
 
-  const fetchGeneratedForms = async () => {
-    setIsLoadingData(true);
+  const fetchGeneratedForms = async (initial: boolean = true) => {
+    if (initial) {
+      setIsLoadingData(true);
+    }
     const { data, error } = await supabaseClient
       .from("ai_forms")
       .select("id, name, fields")
@@ -189,6 +196,7 @@ export const GenerateFormAi = () => {
       .order("created_at", { ascending: false });
     if (!error) {
       setGeneratedForms(data || []);
+      setSelectedForm(0);
     }
     setIsLoadingData(false);
   };
@@ -212,6 +220,32 @@ export const GenerateFormAi = () => {
           <div className="h-full flex flex-col space-y-2">
             <p>Forms Generated</p>
             <div className="flex flex-col h-full space-y-2 overflow-auto left-panel py-1">
+              <button
+                onClick={() => setSelectedForm(-1)}
+                className={`bg-gray-100 border border-gray-300 w-full px-1 py-2 text-sm border relative rounded-md`}
+              >
+                <p className="line-clamp-1 break-words flex justify-center items-center space-x-1">
+                  <svg
+                    className="w-5 h-5"
+                    width="24px"
+                    height="24px"
+                    strokeWidth="1.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    color="#000000"
+                  >
+                    <path
+                      d="M6 12h6m6 0h-6m0 0V6m0 6v6"
+                      stroke="#000000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>
+                  </svg>
+                  <span>New Form</span>
+                </p>
+              </button>
               {generatedForms?.map?.((form: any, index: number) => (
                 <button
                   onClick={() => setSelectedForm(index)}
@@ -221,7 +255,9 @@ export const GenerateFormAi = () => {
                   } bg-white border border-gray-300 w-full px-1 py-2 text-sm border relative rounded-md  hover:shadow`}
                 >
                   <p className="line-clamp-1 break-words">
-                    {form?.name?.length > 20
+                    {deletingId === form?.id
+                      ? "Deleting..."
+                      : form?.name?.length > 20
                       ? form?.name?.substr(0, 20) + "..."
                       : form?.name}
                   </p>
@@ -256,8 +292,8 @@ export const GenerateFormAi = () => {
       </div>
       <div className="w-[75%] p-2 border-2 rounded-md">
         <div className="h-full flex flex-col justify-between">
-          <div className="max-h-full overflow-auto left-panel">
-            <div className="py-4">
+          <div className="max-h-full h-full overflow-auto left-panel">
+            <div className="py-4 h-full">
               {!generatedForms ? (
                 <div className="text-sm flex justify-center items-center h-full">
                   {isLoading ? (
@@ -269,47 +305,75 @@ export const GenerateFormAi = () => {
               ) : (
                 <>
                   <div className="w-full flex justify-end px-4 py-2">
-                    <button
-                      disabled={isLoadingSavingAIForm}
-                      onClick={handleUseAIGeneratedForm}
-                      className={`${
-                        isLoadingSavingAIForm
-                          ? "cursor-not-allowed opacity-70"
-                          : ""
-                      } text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none`}
-                    >
-                      {isLoadingSavingAIForm ? "Loading..." : "Use Template"}
-                    </button>
+                    {selectedForm != -1 && (
+                      <button
+                        disabled={isLoadingSavingAIForm}
+                        onClick={handleUseAIGeneratedForm}
+                        className={`${
+                          isLoadingSavingAIForm
+                            ? "cursor-not-allowed opacity-70"
+                            : ""
+                        } text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none`}
+                      >
+                        {isLoadingSavingAIForm ? "Loading..." : "Use Template"}
+                      </button>
+                    )}
                   </div>
-                  <RenderForm
-                    templatePreview={true}
-                    fields={generatedForms[selectedForm]?.fields}
-                    title={generatedForms[selectedForm]?.name}
-                  />
+                  {selectedForm != -1 ? (
+                    <RenderForm
+                      templatePreview={true}
+                      fields={generatedForms[selectedForm]?.fields}
+                      title={generatedForms[selectedForm]?.name}
+                    />
+                  ) : (
+                    <div className="flex h-full justify-center items-center">
+                      <div className="flex space-x-2 items-center opacity-70">
+                        <p className="font-semibold">Form AI</p>
+                        <svg
+                          className="w-4 h-4 stroke-purple-600"
+                          width="24px"
+                          height="24px"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8 15c4.875 0 7-2.051 7-7 0 4.949 2.11 7 7 7-4.89 0-7 2.11-7 7 0-4.89-2.125-7-7-7zM2 6.5c3.134 0 4.5-1.318 4.5-4.5 0 3.182 1.357 4.5 4.5 4.5-3.143 0-4.5 1.357-4.5 4.5 0-3.143-1.366-4.5-4.5-4.5z"
+                            className="stroke-purple-600"
+                            strokeWidth="1.5"
+                            strokeLinejoin="round"
+                          ></path>
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             </div>
           </div>
-          <form
-            onSubmit={handleGenerateForm}
-            className="flex space-x-4 items-center px-4"
-          >
-            <Input
-              type={EFieldTypes.TEXT}
-              placeholder="Ex:- Create a feedback form"
-              id="content"
-              name="content"
-              value={content}
-              onChange={(e: any) => setContent(e.target.value)}
-            />
-            <div className="w-[200px]">
-              <Button
-                text="Generate"
-                loadingText="Generating..."
-                isLoading={isLoading}
+          {selectedForm === -1 && (
+            <form
+              onSubmit={handleGenerateForm}
+              className="flex space-x-4 items-center px-4"
+            >
+              <Input
+                type={EFieldTypes.TEXT}
+                placeholder="Ex:- Create a feedback form"
+                id="content"
+                name="content"
+                value={content}
+                onChange={(e: any) => setContent(e.target.value)}
               />
-            </div>
-          </form>
+              <div className="w-[200px]">
+                <Button
+                  text="Generate"
+                  loadingText="Generating..."
+                  isLoading={isLoading}
+                />
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </div>
