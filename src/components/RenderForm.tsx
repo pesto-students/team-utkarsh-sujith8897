@@ -296,6 +296,7 @@ export const RenderForm = ({
       {!templatePreview && (
         <Link
           to="/"
+          target="_blank"
           className="fixed bottom-0 lg:bottom-8 right-0 lg:right-10 w-full lg:w-fit px-3 py-3 flex justify-center items-center space-x-2 text-sm font-semibold bg-white rounded-md shadow"
         >
           <img src={logo} alt="logo" className="w-6 h-6" />

@@ -3,6 +3,7 @@ import { useBackdrop } from "../hooks/Backdrop";
 import { useState } from "react";
 import { RenderForm } from "./RenderForm";
 import { formTemplates, getFormId } from "../utils/utils";
+import { GenerateFormAi } from "./GenerateFormAi";
 
 export const TemplatesDialog = ({
   onClose = () => null,
@@ -14,6 +15,7 @@ export const TemplatesDialog = ({
 
   const [templates, setTemplates] = useState<boolean>(false);
   const [selectedTemplate, setSelectedTemplate] = useState<number>(0);
+  const [AIForm, setAIForm] = useState<boolean>(false);
 
   const createForm = async () => {
     showLoader();
@@ -27,64 +29,75 @@ export const TemplatesDialog = ({
     navigate(`/templates/${id}/edit`);
   };
 
+  const handleBack = () => {
+    setTemplates(false);
+    setAIForm(false);
+  };
+
   return (
     <div
       className={`fixed top-0 left-0 w-full h-full z-50 flex justify-center ${
-        templates ? "" : "items-center"
+        templates || AIForm ? "" : "items-center"
       } md:items-center bg-gray-100 bg-opacity-10 backdrop-blur`}
       style={{ zIndex: 1000 }}
     >
       <div
         className={`relative bg-white m-4 border-2 px-6 md:px-8 py-8 rounded-md shadow-md overflow-auto 
     transition-transform duration-300 ease-in-out ${
-      templates ? "scale-100" : "scale-95"
-    }`}
+      templates || AIForm ? "scale-100" : "scale-95"
+    } min-w-[300px] md:min-w-[400px]`}
       >
         <div>
-          <p className="text-center pb-2">
-            Create a form in seconds using our templates
-          </p>
+          <p className="text-center pb-2">Create a form in seconds</p>
         </div>
-        {templates ? (
+        {templates || AIForm ? (
           <div>
             <div className="mt-4 mb-6">
               <img
-                onClick={() => setTemplates(false)}
+                onClick={handleBack}
                 src="/arrow-left.svg"
                 alt="arrow-left-icon"
                 className="w-5 h-5 cursor-pointer transition-all duration-75 active:scale-90"
               />
             </div>
-            <div className="flex space-x-0 md:space-x-4 space-y-4 md:space-y-0 flex-col md:flex-row">
-              <div className="w-full md:w-[300px] flex flex-row md:flex-col max-w-[300px] border rounded-md max-h-[400px] overflow-auto left-panel">
-                {formTemplates?.map?.((template: any, index: number) => (
-                  <button
-                    onClick={() => setSelectedTemplate(index)}
-                    key={index}
-                    className={`${
-                      selectedTemplate === index ? "bg-gray-50 font-medium" : ""
-                    } w-[100%] p-2 border-r md:border-b text-sm hover:bg-gray-50`}
-                  >
-                    {template?.name}
-                  </button>
-                ))}
-              </div>
-              <div className="w-full md:w-[500px] max-h-[400px] overflow-y-auto left-panel pl-0 border rounded-md py-4">
-                <div className="w-full flex justify-end px-4 py-2">
-                  <button
-                    onClick={handleUseTemplate}
-                    className="text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none"
-                  >
-                    Use Template
-                  </button>
+            {templates ? (
+              <div className="flex space-x-0 md:space-x-4 space-y-4 md:space-y-0 flex-col md:flex-row">
+                <div className="w-full md:w-[300px] flex flex-row md:flex-col max-w-[300px] border rounded-md max-h-[400px] overflow-auto left-panel">
+                  {formTemplates?.map?.((template: any, index: number) => (
+                    <button
+                      onClick={() => setSelectedTemplate(index)}
+                      key={index}
+                      className={`${
+                        selectedTemplate === index
+                          ? "bg-gray-50 font-medium"
+                          : ""
+                      } w-[100%] p-2 border-r md:border-b text-sm hover:bg-gray-50`}
+                    >
+                      {template?.name}
+                    </button>
+                  ))}
                 </div>
-                <RenderForm
-                  templatePreview={true}
-                  fields={formTemplates[selectedTemplate]?.fields}
-                  title={formTemplates[selectedTemplate]?.name}
-                />
+                <div className="w-full md:w-[500px] max-h-[400px] overflow-y-auto left-panel pl-0 border rounded-md py-4">
+                  <div className="w-full flex justify-end px-4 py-2">
+                    <button
+                      onClick={handleUseTemplate}
+                      className="text-xs px-4 py-2 rounded-md bg-black text-white font-semibold transition-all duration-75 active:scale-95 focus:outline-none"
+                    >
+                      Use Template
+                    </button>
+                  </div>
+                  <RenderForm
+                    templatePreview={true}
+                    fields={formTemplates[selectedTemplate]?.fields}
+                    title={formTemplates[selectedTemplate]?.name}
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div>
+                <GenerateFormAi />
+              </div>
+            )}
           </div>
         ) : (
           <div className="mt-4 flex flex-col space-y-8 justify-center md:justify-around items-center text-sm">
@@ -107,6 +120,28 @@ export const TemplatesDialog = ({
                 ></path>
               </svg>
               <p>Explore Templates</p>
+            </button>
+            <button
+              onClick={() => setAIForm(true)}
+              className="text-purple-600 border-purple-600 font-semibold w-full flex justify-center items-center space-x-2 border-2 border-gray-300 px-4 py-10 rounded-md transition-all duration-75 active:scale-95 hover:border-purple-500 text-purple-500"
+            >
+              <svg
+                className="w-6 h-6 stroke-purple-600 animate-pulse"
+                width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 15c4.875 0 7-2.051 7-7 0 4.949 2.11 7 7 7-4.89 0-7 2.11-7 7 0-4.89-2.125-7-7-7zM2 6.5c3.134 0 4.5-1.318 4.5-4.5 0 3.182 1.357 4.5 4.5 4.5-3.143 0-4.5 1.357-4.5 4.5 0-3.143-1.366-4.5-4.5-4.5z"
+                  className="stroke-purple-600"
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              <p>AI Form Generator</p>
             </button>
             <button
               onClick={createForm}

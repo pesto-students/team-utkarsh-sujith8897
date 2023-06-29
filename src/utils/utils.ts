@@ -651,3 +651,54 @@ export const getFormId = async () => {
     }
     return newFormId
 }
+
+export const updateAIFormData = (data: any) => {
+    const updatedFields = [];
+    let copyFields = structuredClone(data?.fields);
+    for (let i = 0; i < copyFields.length; i++) {
+        if (
+            copyFields[i].type === EFieldTypes.DROPDOWN ||
+            copyFields[i].type === EFieldTypes.CHECKBOX
+        ) {
+            copyFields[i].options = copyFields[i].options.split(/\s*,\s*/);
+            if (copyFields[i].type === EFieldTypes.DROPDOWN) {
+                copyFields[i].value = "";
+            } else {
+                copyFields[i].value = [];
+                if (copyFields[i]?.options?.length === 0) {
+                    copyFields[i].options.push(["Agree"]);
+                } else if (
+                    copyFields[i]?.options?.length === 1 &&
+                    copyFields[i]?.options?.[0]?.length === 0
+                ) {
+                    copyFields[i].options[0] = "Agree";
+                }
+            }
+        }
+        updatedFields.push(copyFields[i]);
+    }
+    data.fields = updatedFields;
+    console.log({ data })
+    return data
+}
+
+export const getDataFromContent = (content: string) => {
+    let startIndex = null;
+    let braceCount = 0;
+
+    for (let i = 0; i < content.length; i++) {
+        if (content[i] === '{') {
+            if (braceCount === 0) {
+                startIndex = i;
+            }
+            braceCount++;
+        } else if (content[i] === '}') {
+            braceCount--;
+            if (braceCount === 0 && startIndex !== null) {
+                const formDataString = content.substring(startIndex, i + 1);
+                return formDataString
+            }
+        }
+    }
+    return content
+}
