@@ -15,6 +15,7 @@ export const TemplatesPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const handleClickOutside = (event: any) => {
       if (
         popoverRef?.current &&

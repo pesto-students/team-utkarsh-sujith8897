@@ -17,6 +17,7 @@ export const RenderForm = ({
   fields = [],
   title = "",
   id = 0,
+  premium = false,
   handleClose = () => null,
 }: {
   preview?: boolean;
@@ -24,6 +25,7 @@ export const RenderForm = ({
   fields: any[];
   title: string;
   id?: number;
+  premium?: boolean;
   handleClose?: () => void;
 }) => {
   const selectRef = useRef<any>(null);
@@ -120,7 +122,7 @@ export const RenderForm = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: any = e.target.files?.[0];
-    if (file?.size <= 5000000) {
+    if (premium || file?.size <= 5000000) {
       setSelectedFile(file);
       setFileError(false);
     } else {
@@ -298,7 +300,7 @@ export const RenderForm = ({
           </div>
         </div>
       )}
-      {!templatePreview && (
+      {!templatePreview && !premium && (
         <Link
           to="/"
           target="_blank"

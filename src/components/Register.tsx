@@ -36,6 +36,7 @@ export const Register = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (user) {
       navigate("/");
     }
@@ -70,6 +71,17 @@ export const Register = () => {
               value={email}
               onChange={(e: any) => setEmail(e.target.value)}
             />
+            <p className="text-[12px] mt-2">
+              Note: By signing up you agree to our{" "}
+              <Link to="/terms" className="font-semibold">
+                Terms
+              </Link>{" "}
+              and{" "}
+              <Link to="/privacy" className="font-semibold">
+                Privacy
+              </Link>{" "}
+              policies
+            </p>
           </div>
           <Button
             text="Send magic link"

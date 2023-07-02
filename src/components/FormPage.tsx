@@ -11,6 +11,7 @@ export const FormPage = () => {
   const { isLoading, showLoader, hideLoader } = useBackdrop();
 
   const [data, setData] = useState<any>({});
+  const [premium, setPremium] = useState<boolean>(false);
 
   const fetchData = async () => {
     showLoader();
@@ -24,6 +25,14 @@ export const FormPage = () => {
         navigate("/");
       }
       setData(data?.[0]);
+      const { data: premium_data, error: premium_error }: any =
+        await supabaseClient
+          .from("premium_users")
+          .select("user_id")
+          .eq("user_id", data?.[0]?.user_id);
+      if (!premium_error && premium_data?.length > 0) {
+        setPremium(true);
+      }
     }
     hideLoader();
   };
@@ -33,6 +42,11 @@ export const FormPage = () => {
   }, []);
 
   return isLoading ? null : (
-    <RenderForm fields={data?.fields} title={data?.name} id={data?.id} />
+    <RenderForm
+      fields={data?.fields}
+      title={data?.name}
+      id={data?.id}
+      premium={premium}
+    />
   );
 };

@@ -75,7 +75,7 @@ export const AIFormGeneratorPage = () => {
   });
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
 
   return (

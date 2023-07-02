@@ -1,3 +1,4 @@
+import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 export const LandingPageWrapper = ({ children }: any) => {
@@ -6,6 +7,7 @@ export const LandingPageWrapper = ({ children }: any) => {
       <div className="space-y-6 md:space-y-8">
         <Header />
         {children}
+        <Footer />
       </div>
     </div>
   );
