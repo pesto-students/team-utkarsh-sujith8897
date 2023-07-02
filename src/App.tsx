@@ -19,84 +19,86 @@ import { AIFormGeneratorPage } from "./components/AIFormGeneratorPage";
 
 function App() {
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <Router>
-        <AuthProvider>
-          <ToastProvider>
-            <BackdropProvider>
-              <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route
-                  path="/"
-                  element={
-                    <LandingPageWrapper>
-                      <Home />
-                    </LandingPageWrapper>
-                  }
-                />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/form-ai"
-                  element={
-                    <ProtectedRoute>
-                      <AIFormGeneratorPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/forms/:id/edit"
-                  element={
-                    <ProtectedRoute>
-                      <FormEdit />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/forms/:id"
-                  element={
-                    <ProtectedRoute>
-                      <SubmissionPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/templates/:id/edit"
-                  element={
-                    <ProtectedRoute>
-                      <TemplateFormEdit />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/ai/:id/edit"
-                  element={
-                    <ProtectedRoute>
-                      <AIFormEdit />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/r/:id" element={<FormPage />} />
-                <Route
-                  path="templates"
-                  element={
-                    <LandingPageWrapper>
-                      <TemplatesPage />
-                    </LandingPageWrapper>
-                  }
-                />
-              </Routes>
-            </BackdropProvider>
-          </ToastProvider>
-        </AuthProvider>
-      </Router>
+    <div className="flex justify-center items-center bg-gray-50">
+      <div className="bg-gray-50 min-h-screen max-w-[1600px]">
+        <Router>
+          <AuthProvider>
+            <ToastProvider>
+              <BackdropProvider>
+                <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route
+                    path="/"
+                    element={
+                      <LandingPageWrapper>
+                        <Home />
+                      </LandingPageWrapper>
+                    }
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/form-ai"
+                    element={
+                      <ProtectedRoute>
+                        <AIFormGeneratorPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/forms/:id/edit"
+                    element={
+                      <ProtectedRoute>
+                        <FormEdit />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/forms/:id"
+                    element={
+                      <ProtectedRoute>
+                        <SubmissionPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/templates/:id/edit"
+                    element={
+                      <ProtectedRoute>
+                        <TemplateFormEdit />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/ai/:id/edit"
+                    element={
+                      <ProtectedRoute>
+                        <AIFormEdit />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="/r/:id" element={<FormPage />} />
+                  <Route
+                    path="templates"
+                    element={
+                      <LandingPageWrapper>
+                        <TemplatesPage />
+                      </LandingPageWrapper>
+                    }
+                  />
+                </Routes>
+              </BackdropProvider>
+            </ToastProvider>
+          </AuthProvider>
+        </Router>
+      </div>
     </div>
   );
 }

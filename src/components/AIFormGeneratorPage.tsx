@@ -6,6 +6,7 @@ import { supabaseClient } from "../config/supabase-client";
 import LoadingSpinner from "./ui/LoadingSpinner";
 import { Button } from "./ui/Button";
 import { useToast } from "../hooks/Toast";
+import { PricingTabs } from "./PricingTabs";
 
 declare global {
   interface Window {
@@ -22,7 +23,7 @@ export const AIFormGeneratorPage = () => {
 
   const handleBuy = () => {
     window?.LemonSqueezy?.Url?.Open?.(
-      `https://formeasy.lemonsqueezy.com/checkout/buy/c955303b-5ecd-465e-8b31-0dd60c6af6a6?checkout[custom][unique_id]=${user?.id}&checkout[email]=${user?.email}&embed=1`
+      `${process.env.REACT_APP_PAYMENT_LINK}?checkout[custom][unique_id]=${user?.id}&checkout[email]=${user?.email}&embed=1`
     );
   };
 
@@ -74,27 +75,30 @@ export const AIFormGeneratorPage = () => {
   });
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className={`flex flex-col ${premium ? "h-screen" : "h-full"}`}>
       <Navbar />
       {premium ? (
         <div className="flex-1 overflow-auto">
           <GenerateFormAi />
         </div>
       ) : (
-        <div className="min-h-[500px] w-full flex justify-center items-center">
+        <div className="h-full w-full flex justify-center items-center">
           {isLoading ? (
-            <LoadingSpinner />
+            <div className="min-h-[500px] flex justify-center items-center">
+              <LoadingSpinner />
+            </div>
           ) : (
-            <div className="w-[200px]">
-              <Button
+            <div className="h-full">
+              {/* <Button
                 text="Buy Premium"
                 onClick={handleBuy}
                 isLoading={!window?.LemonSqueezy}
-              />
+              /> */}
+              <PricingTabs handlePayment={handleBuy} />
             </div>
           )}
         </div>
