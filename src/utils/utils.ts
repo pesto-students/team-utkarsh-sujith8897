@@ -655,7 +655,7 @@ export const getFormId = async () => {
 export const updateAIFormData = (data: any) => {
     const updatedFields = [];
     let copyFields = structuredClone(data?.fields);
-    for (let i = 0; i < copyFields.length; i++) {
+    for (let i = 0; i < copyFields?.length; i++) {
         if (
             copyFields[i].type === EFieldTypes.DROPDOWN ||
             copyFields[i].type === EFieldTypes.CHECKBOX

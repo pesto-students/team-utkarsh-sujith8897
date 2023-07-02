@@ -41,133 +41,165 @@ export const GenerateFormAi = () => {
     setIsLoadingSavingAIForm(false);
   };
 
+  // const handleGenerateForm = async (e: any) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   const configuration = new Configuration({
+  //     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+  //   });
+  //   const openai = new OpenAIApi(configuration);
+  //   try {
+  //     const res: any = await openai.createChatCompletion({
+  //       model: "gpt-4-0613",
+  //       //   model: "gpt-3.5-turbo-0613",
+  //       messages: [{ role: "user", content: content }],
+  //       functions: [
+  //         {
+  //           name: "generate_form",
+  //           description:
+  //             "Generate form based on the given input and maximum number of fields should be 20",
+  //           parameters: {
+  //             type: "object",
+  //             properties: {
+  //               id: {
+  //                 type: "string",
+  //                 description: "id of the form",
+  //               },
+  //               name: {
+  //                 type: "string",
+  //                 description: "name of the form",
+  //               },
+  //               description: {
+  //                 type: "string",
+  //                 description: "description of the form",
+  //               },
+  //               fields: {
+  //                 description:
+  //                   "generate form fields, should be array of objects",
+  //                 type: "object",
+  //                 properties: {
+  //                   id: {
+  //                     type: "string",
+  //                     description: "id of the form field",
+  //                   },
+  //                   type: {
+  //                     type: "string",
+  //                     enum: [
+  //                       "text",
+  //                       "email",
+  //                       "number",
+  //                       "date",
+  //                       "file",
+  //                       "dropdown",
+  //                       "url",
+  //                       "checkbox",
+  //                       "tel",
+  //                     ],
+  //                     description: "type of the form field",
+  //                   },
+  //                   label: {
+  //                     type: "string",
+  //                     description: "label of the form field",
+  //                   },
+  //                   required: {
+  //                     type: "boolean",
+  //                     description: "whether form field is required or not",
+  //                   },
+  //                   placeholder: {
+  //                     type: "string",
+  //                     description: "placeholder of the form field",
+  //                   },
+  //                   options: {
+  //                     type: "string",
+  //                     description:
+  //                       "these are options for field type checkbox and dropdown only and is string array and at least should have one option",
+  //                   },
+  //                   value: {
+  //                     type: "string",
+  //                     description:
+  //                       "this is value property of string type for field type dropdown and string array for field type checkbox and empty array or empty string by default",
+  //                   },
+  //                 },
+  //               },
+  //             },
+  //             required: ["id", "name", "description", "fields"],
+  //           },
+  //         },
+  //       ],
+  //       function_call: {
+  //         name: "generate_form",
+  //       },
+  //     });
+  //     console.log({res})
+  //     const args: any =
+  //       res?.data?.choices?.[0]?.message?.function_call?.arguments;
+
+  //     if (args) {
+  //       let data = JSON?.parse?.(args);
+  //       data = updateAIFormData(data);
+  //       setSelectedForm(0);
+  //       setGeneratedForms([data, ...generatedForms]);
+  //       setIsLoading(false);
+  //       setContent("");
+  //       await updateAIForms({ name: data?.name, fields: data?.fields });
+  //     } else {
+  //       const content = res?.data?.choices?.[0]?.message?.content;
+  //       const jsonMatch = content.match(/```json\s+({[\s\S]*?})\s+```/);
+  //       if (jsonMatch && jsonMatch[1]) {
+  //         const formDataString = jsonMatch[1];
+  //         try {
+  //           let formData = JSON.parse(formDataString);
+  //           formData = updateAIFormData(formData);
+  //           setSelectedForm(0);
+  //           setGeneratedForms([formData, ...generatedForms]);
+  //         } catch (error) {
+  //           setIsLoading(false);
+  //           showToast("Something Failed!", "Invalid JSON found");
+  //         }
+  //         setIsLoading(false);
+  //       } else {
+  //         setIsLoading(false);
+  //         showToast(
+  //           "Something Failed!",
+  //           res?.data?.choices?.[0]?.message?.content
+  //         );
+  //       }
+  //     }
+  //   } catch (e: any) {
+  //     console.log({ e });
+  //     setIsLoading(false);
+  //     showToast("Something Failed!", e?.response?.data?.error?.message);
+  //   }
+  // };
+
   const handleGenerateForm = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
-    const configuration = new Configuration({
-      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-    });
-    const openai = new OpenAIApi(configuration);
     try {
-      const res: any = await openai.createChatCompletion({
-        model: "gpt-4-0613",
-        //   model: "gpt-3.5-turbo-0613",
-        messages: [{ role: "user", content: content }],
-        functions: [
-          {
-            name: "generate_form",
-            description:
-              "Generate form based on the given input and maximum number of fields should be 20",
-            parameters: {
-              type: "object",
-              properties: {
-                id: {
-                  type: "string",
-                  description: "id of the form",
-                },
-                name: {
-                  type: "string",
-                  description: "name of the form",
-                },
-                description: {
-                  type: "string",
-                  description: "description of the form",
-                },
-                fields: {
-                  description:
-                    "generate form fields, should be array of objects",
-                  type: "object",
-                  properties: {
-                    id: {
-                      type: "string",
-                      description: "id of the form field",
-                    },
-                    type: {
-                      type: "string",
-                      enum: [
-                        "text",
-                        "email",
-                        "number",
-                        "date",
-                        "file",
-                        "dropdown",
-                        "url",
-                        "checkbox",
-                        "tel",
-                      ],
-                      description: "type of the form field",
-                    },
-                    label: {
-                      type: "string",
-                      description: "label of the form field",
-                    },
-                    required: {
-                      type: "boolean",
-                      description: "whether form field is required or not",
-                    },
-                    placeholder: {
-                      type: "string",
-                      description: "placeholder of the form field",
-                    },
-                    options: {
-                      type: "string",
-                      description:
-                        "these are options for field type checkbox and dropdown only and is string array and at least should have one option",
-                    },
-                    value: {
-                      type: "string",
-                      description:
-                        "this is value property of string type for field type dropdown and string array for field type checkbox and empty array or empty string by default",
-                    },
-                  },
-                },
-              },
-              required: ["id", "name", "description", "fields"],
-            },
-          },
-        ],
-        function_call: {
-          name: "generate_form",
+      const res: any = await fetch("/api/premium/form-ai", {
+        method: "POST",
+        body: JSON.stringify({ content }),
+        headers: {
+          "Content-Type": "application/json",
         },
       });
-      const args: any =
-        res?.data?.choices?.[0]?.message?.function_call?.arguments;
 
-      if (args) {
-        let data = JSON?.parse?.(args);
-        data = updateAIFormData(data);
-        setSelectedForm(0);
-        setGeneratedForms([data, ...generatedForms]);
+      var data = await res.json();
+
+      if (data?.error) {
         setIsLoading(false);
-        setContent("");
-        await updateAIForms({ name: data?.name, fields: data?.fields });
-      } else {
-        const content = res?.data?.choices?.[0]?.message?.content;
-        const jsonMatch = content.match(/```json\s+({[\s\S]*?})\s+```/);
-        if (jsonMatch && jsonMatch[1]) {
-          const formDataString = jsonMatch[1];
-          try {
-            let formData = JSON.parse(formDataString);
-            formData = updateAIFormData(formData);
-            setSelectedForm(0);
-            setGeneratedForms([formData, ...generatedForms]);
-          } catch (error) {
-            setIsLoading(false);
-            showToast("Something Failed!", "Invalid JSON found");
-          }
-          setIsLoading(false);
-        } else {
-          setIsLoading(false);
-          showToast(
-            "Something Failed!",
-            res?.data?.choices?.[0]?.message?.content
-          );
-        }
+        return showToast("Something Failed!", data?.error);
       }
-    } catch (e: any) {
-      console.log({ e });
+
+      data = updateAIFormData(data?.form_data);
+      setSelectedForm(0);
+      setGeneratedForms([data, ...generatedForms]);
       setIsLoading(false);
-      showToast("Something Failed!", e?.response?.data?.error?.message);
+      setContent("");
+      await updateAIForms({ name: data?.name, fields: data?.fields });
+    } catch (e: any) {
+      setIsLoading(false);
+      showToast("Something Failed!", e?.message);
     }
   };
 
@@ -230,6 +262,7 @@ export const GenerateFormAi = () => {
   }, []);
 
   useEffect(() => {
+    setContent("");
     setToggleMenu(false);
   }, [selectedForm]);
 
@@ -322,7 +355,7 @@ export const GenerateFormAi = () => {
         <img
           src="/hamburger.svg"
           alt="menu"
-          className="w-4 h-4"
+          className="w-5 h-5 ml-2"
           onClick={() => setToggleMenu(true)}
         />
       </div>

@@ -48,8 +48,7 @@ export const ToastProvider = ({ children }: any) => {
         className={`${
           toast ? "visible" : "invisible"
         } fixed bottom-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px] transition-all duration-400`}
-        // style={toast ? { opacity: 1 } : { opacity: 0 }}
-        style={{ zIndex: 2000 }}
+        style={{ zIndex: 2000, opacity: toast ? 1 : 0 }}
       >
         <li
           role="status"
