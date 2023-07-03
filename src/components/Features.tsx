@@ -22,6 +22,13 @@ export const Features = () => {
       description: "Collect submissions and download them in csv format",
       path: "/download.MOV",
     },
+    {
+      icon: "/magic.svg",
+      title: "AI Form Generator",
+      description: "Now you can generate forms using AI in seconds",
+      path: "/form-ai.MOV",
+      tag: "Premium",
+    },
   ];
 
   const [selectedFeature, setSelectedFeature] = useState<number>(0);
@@ -54,7 +61,14 @@ export const Features = () => {
                     className="w-7 h-7 text-black"
                   />
                   <div className="xl:col-span-1 space-y-2 px-0 lg:px-2 ">
-                    <p className="text-lg font-semibold">{item?.title}</p>
+                    <p className="relative text-lg font-semibold">
+                      <span>{item?.title}</span>
+                      {item?.tag && (
+                        <span className="text-[10px] absolute top-0 ml-2 p-1 leading-3 rounded-md border-2 border-purple-600 text-purple-600 font-bold">
+                          {item?.tag}
+                        </span>
+                      )}
+                    </p>
                     <p className="text-sm">{item?.description}</p>
                   </div>
                 </div>
