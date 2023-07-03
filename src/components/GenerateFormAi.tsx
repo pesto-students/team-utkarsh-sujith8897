@@ -229,12 +229,12 @@ export const GenerateFormAi = () => {
     if (initial) {
       setIsLoadingData(true);
     }
-    const { data, error } = await supabaseClient
+    const { data, error }: any = await supabaseClient
       .from("ai_forms")
       .select("id, name, fields")
       .eq("user_id", user?.id)
       .order("created_at", { ascending: false });
-    if (!error) {
+    if (!error && data?.length > 0) {
       setGeneratedForms(data || []);
       setSelectedForm(0);
     }
