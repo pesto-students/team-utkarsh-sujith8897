@@ -92,7 +92,7 @@ export const AIFormGeneratorPage = () => {
               <LoadingSpinner />
             </div>
           ) : (
-            <div className="h-full">
+            <div className="h-full pt-8">
               {/* <Button
                 text="Buy Premium"
                 onClick={handleBuy}
