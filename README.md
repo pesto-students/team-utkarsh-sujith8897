@@ -20,7 +20,7 @@ easily construct forms without any coding knowledge, and efficiently collect, ma
 
 # Demo
 
-- [Live Demo](https://formeasy-pesto.netlify.app/) or https://formeasy-pesto.netlify.app/
+- [Live Demo](https://formeasy-pesto.vercel.app/) or https://formeasy-pesto.vercel.app/
 - [Video Demo](https://youtu.be/a2ZyQ5gh1I0) or https://youtu.be/a2ZyQ5gh1I0
 
 <br/>
