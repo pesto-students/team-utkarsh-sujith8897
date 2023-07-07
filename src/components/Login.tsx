@@ -19,8 +19,23 @@ export const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!process.env.REACT_APP_ENV?.includes("prod")) {
+      return showToast(
+        "Please use Guest Login",
+        <p>
+          Or you can visit{" "}
+          <a
+            href="https://www.formeasypro.com"
+            className="font-semibold underline"
+          >
+            formeasypro.com
+          </a>{" "}
+          for actual login
+        </p>
+      );
+    }
     setIsLoading(true);
-    const { data, error } = await supabaseClient.auth.signInWithOtp({
+    const { data, error }: any = await supabaseClient.auth.signInWithOtp({
       email: email,
       options: {
         emailRedirectTo: "http://localhost:3000",

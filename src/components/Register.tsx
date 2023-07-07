@@ -17,8 +17,12 @@ export const Register = () => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    return showToast(
+      "Please use Guest Login",
+      "Or you can visit formeasypro.com for actual login"
+    );
     setIsLoading(true);
-    const { data, error } = await supabaseClient.auth.signInWithOtp({
+    const { data, error }: any = await supabaseClient.auth.signInWithOtp({
       email: email,
       options: {
         emailRedirectTo: "http://localhost:3000",

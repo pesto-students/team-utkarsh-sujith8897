@@ -13,7 +13,7 @@ interface Toast {
 
 interface ToastContextProps {
   toast: Toast | null;
-  showToast: (title: string, description: string) => void;
+  showToast: (title: string, description: any) => void;
   closeToast: () => void;
 }
 
